@@ -1,6 +1,7 @@
 import os
-from llama_index import StorageContext, VectorStoreIndex, load_index_from_storage
-from llama_index.readers import PDFReader
+from llama_index.core import VectorStoreIndex, load_index_from_storage
+from llama_index.core.storage import StorageContext
+from pypdf import PdfReader
 
 
 def get_index(data, index_name):
@@ -16,8 +17,16 @@ def get_index(data, index_name):
 
     return index
 
+def read_pdf(file_path):
+    reader = PdfReader(file_path)
+    text = ''
+    for page in reader.pages:
+        text += page.extract_text()
+    return text
 
 pdf_path = os.path.join("data", "Canada.pdf")
-canada_pdf = PDFReader().load_data(file=pdf_path)
+canada_pdf = read_pdf(pdf_path)
+
+print(canada_pdf)
 canada_index = get_index(canada_pdf, "canada")
 canada_engine = canada_index.as_query_engine()
