@@ -26,7 +26,5 @@ def read_pdf(file_path):
 
 pdf_path = os.path.join("data", "Canada.pdf")
 canada_pdf = read_pdf(pdf_path)
-
-print(canada_pdf)
 canada_index = get_index(canada_pdf, "canada")
 canada_engine = canada_index.as_query_engine()

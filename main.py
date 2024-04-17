@@ -4,6 +4,7 @@ import pandas as pd
 from prompts import new_prompt, instruction_str, context
 from note_engine import note_engine
 from llama_index.core.query_engine import PandasQueryEngine
+# from llama_index.experimental.query_engine import PandasQueryEngine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
@@ -14,10 +15,12 @@ load_dotenv()
 population_path = os.path.join("data", "population.csv")
 population_df = pd.read_csv(population_path)
 
+
 population_query_engine = PandasQueryEngine(
     df=population_df, verbose=True, instruction_str=instruction_str
 )
 population_query_engine.update_prompts({"pandas_prompt": new_prompt})
+population_query_engine.query("what is the population of canada")
 
 tools = [
     note_engine,
